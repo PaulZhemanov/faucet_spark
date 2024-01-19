@@ -7,38 +7,20 @@ import {TEXT_TYPES} from "@components/Text";
 import Text from "@components/Text";
 import colors from "@components/colors";
 import StatusBar from "@components/StatusBar";
+import Faucet from "@components/Faucet";
 
 
 const Root = styled(Column)`
     width: 100%;
     height: 100%;
-    //align-items: center;
     background: ${({ theme }) => colors.bgPrimary};
-    //max-height: 100vh;
-    //padding: 0 12px; ????
 `;
 
-const Faucet = styled.div`
-    display: flex;
-    box-sizing: border-box;
-    //justify-content: flex-start;
-    padding-left: 12px;
-    width: 414px;
-    //min-height: 100%;
-    //margin-bottom: 4px;
-    //margin-top: 4px;
-    //text-align: left;
-    
-`;
 const App: React.FC = observer(() => {
     return (
         <Root>
             <Header/>
-            <Faucet>
-                <Text type={TEXT_TYPES.H} primary>
-                    Faucet for Fuel Network
-                </Text>
-            </Faucet>
+            <Faucet/>
             <StatusBar />
 
             {/*<SizedBox height={16} />*/}
