@@ -51,7 +51,7 @@ interface ContractConfig {
 	// accountBalanceContract: AccountBalanceAbi;
 	// clearingHouseContract: ClearingHouseAbi;
 	// insuranceFundContract: InsuranceFundAbi;
-	// perpMarketContract: PerpMarketAbi;
+	perpMarketContract: PerpMarketAbi;
 	// vaultContract: VaultAbi;
 	// pythContract: PythContractAbi;
 }

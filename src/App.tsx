@@ -3,17 +3,15 @@ import styled from "@emotion/styled";
 import {Column} from "@components/Flex";
 import {observer} from "mobx-react";
 import Header from "@components/Header";
-import {TEXT_TYPES} from "@components/Text";
-import Text from "@components/Text";
 import colors from "@components/colors";
 import StatusBar from "@components/StatusBar";
 import Faucet from "@components/Faucet";
 
 
 const Root = styled(Column)`
-    width: 100%;
-    height: 100%;
-    background: ${({ theme }) => colors.bgPrimary};
+ width: 100%;
+ height: 100vh;
+ background: ${colors.bgPrimary};
 `;
 
 const App: React.FC = observer(() => {
@@ -21,7 +19,7 @@ const App: React.FC = observer(() => {
         <Root>
             <Header/>
             <Faucet/>
-            <StatusBar />
+            <StatusBar/>
 
             {/*<SizedBox height={16} />*/}
             {/*<Header />*/}

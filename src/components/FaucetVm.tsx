@@ -1,10 +1,12 @@
 import React, {useMemo} from "react";
 import RootStore from "@stores/RootStore";
 import {useStores} from "@stores/useStores";
-import {TOKENS_BY_ASSET_ID, TOKENS_LIST} from "@src/constants";
+import { CONTRACT_ADDRESSES, TOKENS_BY_ASSET_ID, TOKENS_LIST } from "@src/constants";
 import BN from "@src/utils/BN";
 import {makeAutoObservable} from "mobx";
 import {useVM} from "@src/hooks/useVM";
+import { TokenAbi__factory } from "@components/TokenAbi__factory";
+import { hashMessage } from "fuels";
 
 
 const ctx = React.createContext<FaucetVM | null>(null);
@@ -71,7 +73,7 @@ class FaucetVM {
         try {
             this._setLoading(true);
             this.setActionTokenAssetId(assetId);
-            // const tokenFactory = CONTRACT_ADDRESSES.tokenFactory;
+            const tokenFactory = CONTRACT_ADDRESSES.tokenFactory;
             const wallet = await accountStore.getWallet();
             if (wallet == null || accountStore.addressInput == null) return;
             const tokenFactoryContract = TokenAbi__factory.connect(tokenFactory, wallet);

@@ -10,9 +10,14 @@ interface IProps {}
 
 const Root = styled.div`
     display: flex;
+    flex-direction: column;
     box-sizing: border-box;
-    padding-left: 12px;
-    width: 414px;
+    padding: 0 16px;
+    width: 100%;
+    min-height: 100%;
+    margin-bottom: 24px;
+    margin-top: 40px;
+    text-align: left;
 `;
 
 const FaucetImpl: React.FC = observer(() => {
@@ -29,7 +34,7 @@ const FaucetImpl: React.FC = observer(() => {
                             Faucet for Fuel Network
                         </Text>
                         <SizedBox height={16} />
-                        {vm.faucetTokens.length === 0 ? <Skeleton height={48} style={{ margin: 4 }} count={4} /> : <TokensFaucetTable />}
+                        <TokensFaucetTable />
                     </Root>
                 );
             }}

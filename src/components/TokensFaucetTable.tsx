@@ -1,38 +1,58 @@
 import React from "react";
-import {useStores} from "@stores/useStores";
-import { Row } from "@components/Flex";
-import { TEXT_TYPES } from "@components/Text";
+import { useStores } from "@stores/useStores";
+import { Column, Row } from "@components/Flex";
+import Text, { TEXT_TYPES, TEXT_TYPES_MAP } from "@components/Text";
 import Button from "@components/Button";
 import { FAUCET_URL, TOKENS_BY_SYMBOL } from "@src/constants";
 import { observer } from "mobx-react-lite";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import { TableBody, TableRow, TableText, TableTitle } from "@src/components/BottomTablesInterfacePerp";
 import Chip from "@components/Chip";
 import colors from "@components/colors";
-import {useFaucetVM} from "@components/FaucetVm";
+import { useFaucetVM } from "@components/FaucetVm";
 
-interface IProps {}
+interface IProps {
+}
 
 const Root = styled.div`
-	background: ${({ theme }) => colors.bgSecondary};
-	display: flex;
-	width: 100%;
-	flex-direction: column;
-	box-sizing: border-box;
-	border: 1px solid ${({ theme }) => colors.bgSecondary};
-	overflow: hidden;
-	border-radius: 10px;
-	overflow-x: auto;
-	max-width: 100%;
-
-	& > * {
-		min-width: 580px;
-	}
+    background: ${colors.bgSecondary};
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    box-sizing: border-box;
+    border: 1px solid ${colors.bgSecondary};
+    border-radius: 10px;
+    max-width: 100%;
+`;
+export const TableTitle = styled(Text)`
+    flex: 1;
+    white-space: nowrap;
+    ${TEXT_TYPES_MAP[TEXT_TYPES.SUPPORTING]}
 `;
 
+export const TableText = styled(Text)`
+    flex: 1;
+    display: flex;
+    align-items: center;
+`;
+
+export const TableRow = styled(Row)`
+    margin-bottom: 1px;
+    height: 32px;
+    flex-shrink: 0;
+    background: ${colors.bgPrimary};
+    align-items: center;
+    padding: 0 12px;
+    box-sizing: border-box;
+`;
+
+export const TableBody = styled(Column)`
+    //overflow: scroll;
+    width: 100%;
+    box-sizing: border-box;
+`;
 const StyledTableRow = styled(TableRow)`
-	height: 48px;
+    height: 48px;
 `;
 
 const TokensFaucetTable: React.FC<IProps> = observer(() => {
@@ -85,7 +105,7 @@ const TokensFaucetTable: React.FC<IProps> = observer(() => {
 											if (token.symbol === "ETH") {
 												window.open(
 													accountStore.address == null ? FAUCET_URL : `${FAUCET_URL}/?address=${accountStore.address}`,
-													"blank",
+													"blank"
 												);
 											} else {
 												vm.mint(token.assetId);

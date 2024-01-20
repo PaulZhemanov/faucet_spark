@@ -23,8 +23,8 @@ const Chip = styled(Text)`
 	text-align: center;
 	height: 18px;
 	border-radius: 4px;
-	color: ${({ theme }) => colors.textSecondary};
-	background: ${({ theme }) => colors.bgSecondary};
+	color: ${colors.textSecondary};
+	background: ${colors.bgSecondary};
 	padding: 0 4px;
 	max-width: fit-content;
 	box-sizing: border-box;
@@ -40,7 +40,7 @@ const Indicator = styled.div`
 const Divider = styled.div`
 	width: 1px;
 	height: 18px;
-	background: ${() => colors.bgSecondary};
+	background: ${colors.bgSecondary};
 	margin: 0 8px;
 `;
 

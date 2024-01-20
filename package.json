@@ -6,6 +6,8 @@
     "@babel/core": "^7.16.0",
     "@emotion/styled": "^11.11.0",
     "@ethersproject/bignumber": "^5.7.0",
+    "@fuel-wallet/sdk": "^0.13.5",
+    "fuels": "^0.69.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.17.0",
