@@ -67,7 +67,7 @@ const TokensFaucetTable: React.FC<IProps> = observer(() => {
 				<TableTitle>Mint amount</TableTitle>
 				<TableTitle>My balance</TableTitle>
 				<TableTitle>
-					<Row justifyContent="flex-end">{/*<Button style={{ width: 120 }}>Mint all</Button>*/}</Row>
+					<Row justifyContent="flex-end">{<Button style={{ width: 120 }}>MINT BTC AND USDC</Button>}</Row>
 				</TableTitle>
 			</StyledTableRow>
 			<TableBody>

@@ -2,14 +2,12 @@ import styled from "@emotion/styled";
 import React, {useState} from "react";
 import {observer} from "mobx-react";
 import {ReactComponent as Logo} from "@src/assets/logoColoredFalse.svg";
-// import {ReactComponent as Gear} from "@src/assets/gear.svg";
 import {Row} from "@components/Flex";
 import {TEXT_TYPES} from "@components/Text";
 import Tab from "@components/Tab";
 import Button from "@components/Button";
 import colors from "@components/colors";
-import {useNavigate} from "react-router-dom";
-import YourSvgIcon from "@src/assets/gear.svg";
+import gear from "@src/assets/gear.svg";
 import SizedBox from "@components/SizedBox";
 
 interface IProps {
@@ -34,13 +32,13 @@ const Divider = styled.div`
     margin: 0 16px;
     width: 1px;
     height: 32px;
-    background: ${({theme}) => colors.bgSecondary};
+    background: ${colors.bgSecondary};
 `;
 
 const Gear = styled(Button)`
     border-radius: 32px;  
     border: 1px solid  #4B4B4B;
-    background: url(${YourSvgIcon}) no-repeat center center;
+    background: url(${gear}) no-repeat center center;
     width: 32px;
     height: 32px;
     //background-size: contain;
