@@ -7,6 +7,7 @@ import { autorun } from "mobx";
 import RootStore from "@stores/RootStore";
 import { storesContext } from "@stores/useStores";
 import { HashRouter as Router } from "react-router-dom";
+import { MetaMaskProvider } from "@metamask/sdk-react";
 
 const initState = loadState();
 
@@ -29,8 +30,6 @@ root.render(
 				<App />
 			</Router>
 		</storesContext.Provider>
-		,
-
 	</React.StrictMode>
 );
 

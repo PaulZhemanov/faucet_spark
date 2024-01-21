@@ -20,9 +20,6 @@ export default class RootStore {
         this.accountStore = new AccountStore(this, initState?.accountStore);
         this.notificationStore = new NotificationStore(this);
         this.settingsStore = new SettingsStore(this, initState?.settingStore);
-
-
-
         makeAutoObservable(this);
     }
 

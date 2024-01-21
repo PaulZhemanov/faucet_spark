@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import {observer} from "mobx-react";
 import {ReactComponent as Logo} from "@src/assets/logoColoredFalse.svg";
 import {Row} from "@components/Flex";
@@ -8,8 +8,9 @@ import Tab from "@components/Tab";
 import Button from "@components/Button";
 import colors from "@components/colors";
 import gear from "@src/assets/gear.svg";
+import { ReactComponent as Account } from "@src/assets/account.svg";
+import { ReactComponent as ArrowUp } from "@src/assets/arrowUp.svg";
 import SizedBox from "@components/SizedBox";
-
 interface IProps {
 }
 
@@ -41,7 +42,6 @@ const Gear = styled(Button)`
     background: url(${gear}) no-repeat center center;
     width: 32px;
     height: 32px;
-    //background-size: contain;
 `;
 
 type TMenuItem = {
@@ -49,8 +49,6 @@ type TMenuItem = {
     route?: string;
     link?: string;
 };
-
-
 export const MENU_ITEMS: Array<TMenuItem> = [
     {title: "DASHBOARD"},
     {title: "TRADE"},
@@ -60,58 +58,109 @@ export const MENU_ITEMS: Array<TMenuItem> = [
     {title: "MORE"},
 ];
 
-// const SettingsButton = styled(Button)`
-//     border-radius: 32px;
-//     padding: 2px 4px;
-//
-//     path {
-//         fill: ${({theme}) => colors.iconSecondary};
-//     }
-//
-//     :active {
-//         path {
-//             fill: ${({theme}) => colors.iconPrimary};
-//         }
-//     }
-//
-//     :disabled {
-//         path {
-//             fill: ${({theme}) => colors.iconDisabled};
-//         }
-//     }
-// `;
-
 const TabContainer = styled(Row)`
     flex-grow: 1;
     & > * {
         margin-right: 28px;
     }
 `;
+
 const ROUTES = {
     ROOT: "/",
     CONNECT: "/connect",
     TRADE: "/:marketId",
     FAUCET: "/faucet",
 };
-const Header: React.FC<IProps> = observer(() => {
-    return (
-        <Root>
-            <a rel="noreferrer noopener" href="/public">
-                <Logo/>
-            </a>
-            <Divider/>
-            <TabContainer>
-                {MENU_ITEMS.map(({title, link, route}) => (
-                    <Tab type={TEXT_TYPES.BUTTON_SECONDARY} key={title}>{title}</Tab>
-                ))}
-            </TabContainer>
-            <Gear />
-            <SizedBox width={20} />
-            <Button green fitContent>
-                Connect wallet
-            </Button>
 
-        </Root>
-    );
+const Header: React.FC<IProps> = observer(() => {
+ const [isWalletInstalled, setIsWalletInstalled] = useState(false);
+ const [account, setAccount] = useState<string | null>(null);
+
+ useEffect(() => {
+  const walletInstalled = window.ethereum !== undefined;
+  setIsWalletInstalled(walletInstalled);
+
+  if (walletInstalled) {
+   const storedAccount = localStorage.getItem("walletAccount");
+   if (storedAccount) {
+    setAccount(storedAccount);
+   }
+  }
+ }, [window.ethereum]);
+
+ const connectWallet = async () => {
+  try {
+   const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+   setAccount(accounts[0]);
+  } catch (error) {
+   console.error("Error connecting to MetaMask:", error);
+   alert("Something went wrong");
+  }
+ };
+
+ const disconnectWallet = async () => {
+  try {
+   if (window.ethereum) {
+    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+
+    if (accounts && accounts.length > 0) {
+     window.ethereum._metamask.removeAllListeners();
+     window.ethereum.on("accountsChanged", (newAccounts) => {
+      if (newAccounts.length === 0) {
+       setAccount(null);
+      }
+     });
+
+     await window.ethereum.request({ method: "eth_disconnect" });
+    }
+   }
+  } catch (error) {
+   console.error("Error disconnecting from MetaMask:", error);
+   alert("Something went wrong");
+  }
+ };
+
+ const getAddressPreview = () => {
+  return account ? (
+   <>
+    <Account style={{ marginRight: "8px" }} />{" "}
+    {`${account.slice(0, 5)}...${account.slice(-4)}`}
+    <ArrowUp style={{ marginLeft: "8px" }} />{" "}
+   </>
+  ) : (
+   ""
+  );
+ };
+
+ return (
+  <Root>
+   <a rel="noreferrer noopener" href="/public">
+    <Logo />
+   </a>
+   <Divider />
+   <TabContainer>
+    {MENU_ITEMS.map(({ title, link, route }) => (
+     <Tab type={TEXT_TYPES.BUTTON_SECONDARY} key={title}>
+      {title}
+     </Tab>
+    ))}
+   </TabContainer>
+   <Gear />
+   <SizedBox width={20} />
+   {isWalletInstalled ? (
+    <Button
+     green={isWalletInstalled && !account}
+     fitContent
+     onClick={isWalletInstalled && account ? disconnectWallet : connectWallet}
+    >
+     {getAddressPreview() || "Connect wallet"}
+    </Button>
+   ) : (
+    <p>Install MetaMask wallet</p>
+   )}
+  </Root>
+ );
 });
+
 export default Header;
+

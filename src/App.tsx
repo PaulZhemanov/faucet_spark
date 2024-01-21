@@ -8,6 +8,7 @@ import StatusBar from "@components/StatusBar";
 import Faucet from "@components/Faucet";
 
 
+
 const Root = styled(Column)`
  width: 100%;
  height: 100vh;
