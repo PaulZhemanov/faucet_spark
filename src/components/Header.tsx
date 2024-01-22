@@ -65,13 +65,6 @@ const TabContainer = styled(Row)`
     }
 `;
 
-const ROUTES = {
-    ROOT: "/",
-    CONNECT: "/connect",
-    TRADE: "/:marketId",
-    FAUCET: "/faucet",
-};
-
 const Header: React.FC<IProps> = observer(() => {
  const [isWalletInstalled, setIsWalletInstalled] = useState(false);
  const [account, setAccount] = useState<string | null>(null);

@@ -4,7 +4,6 @@ import {Observer, observer} from "mobx-react";
 import styled from "@emotion/styled";
 import SizedBox from "@components/SizedBox";
 import {FaucetVMProvider, useFaucetVM} from "@components/FaucetVm";
-import Skeleton from "react-loading-skeleton";
 import TokensFaucetTable from "@components/TokensFaucetTable";
 interface IProps {}
 

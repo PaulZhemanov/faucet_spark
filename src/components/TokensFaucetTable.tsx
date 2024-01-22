@@ -59,7 +59,7 @@ const TokensFaucetTable: React.FC<IProps> = observer(() => {
 	const { accountStore } = useStores();
 	const vm = useFaucetVM();
 	const navigate = useNavigate();
-	const ethBalance = accountStore.getBalance(TOKENS_BY_SYMBOL.ETH);
+	// const ethBalance = accountStore.getBalance(TOKENS_BY_SYMBOL.ETH);
 	return (
 		<Root>
 			<StyledTableRow>

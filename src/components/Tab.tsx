@@ -20,7 +20,7 @@ const Tab = styled(Text)<IProps>`
 	transition: 0.4s;
 
 	:hover {
-		color: ${({ theme, disabled }) => (!disabled ? colors.textPrimary : colors.textDisabled)};
+		color: ${disabled  => (!disabled ? colors.textPrimary : colors.textDisabled)};
 	}
 `;
 

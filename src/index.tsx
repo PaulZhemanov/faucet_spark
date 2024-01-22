@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { loadState, saveState } from "@src/utils/localStorage";
+import { loadState, saveState } from "@stores/localStorage";
 import { autorun } from "mobx";
 import RootStore from "@stores/RootStore";
 import { storesContext } from "@stores/useStores";

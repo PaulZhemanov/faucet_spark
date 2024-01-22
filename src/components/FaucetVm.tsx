@@ -1,12 +1,10 @@
 import React, {useMemo} from "react";
 import RootStore from "@stores/RootStore";
 import {useStores} from "@stores/useStores";
-import { CONTRACT_ADDRESSES, TOKENS_BY_ASSET_ID, TOKENS_LIST } from "@src/constants";
-import BN from "@src/utils/BN";
+import { TOKENS_BY_ASSET_ID, TOKENS_LIST } from "@src/constants";
 import {makeAutoObservable} from "mobx";
 import {useVM} from "@src/hooks/useVM";
-import { TokenAbi__factory } from "@components/TokenAbi__factory";
-import { hashMessage } from "fuels";
+
 
 
 const ctx = React.createContext<FaucetVM | null>(null);
@@ -29,8 +27,6 @@ const faucetAmounts: Record<string, number> = {
     USDC: 3000,
     BTC: 0.01,
     UNI: 50,
-    // LINK: 50,
-    // COMP: 5,
 };
 class FaucetVM {
     public rootStore: RootStore;
@@ -64,45 +60,7 @@ class FaucetVM {
         });
     }
     private _setLoading = (l: boolean) => (this.loading = l);
-    setActionTokenAssetId = (l: string | null) => (this.actionTokenAssetId = l);
 
-    mint = async (assetId?: string) => {
-        if (assetId == null) return;
-        const { accountStore, notificationStore } = this.rootStore;
-        await accountStore.checkConnectionWithWallet();
-        try {
-            this._setLoading(true);
-            this.setActionTokenAssetId(assetId);
-            const tokenFactory = CONTRACT_ADDRESSES.tokenFactory;
-            const wallet = await accountStore.getWallet();
-            if (wallet == null || accountStore.addressInput == null) return;
-            const tokenFactoryContract = TokenAbi__factory.connect(tokenFactory, wallet);
-
-            const token = TOKENS_BY_ASSET_ID[assetId];
-            const amount = BN.parseUnits(faucetAmounts[token.symbol], token.decimals);
-            const hash = hashMessage(token.symbol);
-            const identity = { Address: accountStore.addressInput };
-
-            const { transactionResult } = await tokenFactoryContract.functions
-                .mint(identity, hash, amount.toString())
-                .txParams({ gasPrice: 1 })
-                .call();
-            if (transactionResult != null) {
-                const token = TOKENS_BY_ASSET_ID[assetId];
-                this.rootStore.notificationStore.toast(`You have successfully minted ${token.symbol}`, {
-                    type: "success",
-                });
-            }
-            await this.rootStore.accountStore.updateAccountBalances();
-        } catch (e) {
-            const errorText = e?.toString();
-            console.log(errorText);
-            notificationStore.toast(errorText ?? "", { type: "error" });
-        } finally {
-            this.setActionTokenAssetId(null);
-            this._setLoading(false);
-        }
-    };
 
 }
 
